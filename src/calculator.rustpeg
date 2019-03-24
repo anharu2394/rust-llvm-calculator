@@ -1,0 +1,21 @@
+use crate::ast::Node;
+
+pub expr -> Node = op / value
+
+pars -> Node = ws<"("> n:expr ws<")"> { n }
+
+whitespace = #quiet<[ \n\t\r]+>
+
+ws<R> = whitespace* R whitespace*
+
+op -> Node = #infix<value> {
+#L x "+" y { Node::Add(Box::new(x),Box::new(y)) }
+  x "-" y { Node::Sub(Box::new(x),Box::new(y)) }
+#L x "*" y { Node::Mul(Box::new(x),Box::new(y)) }
+  x "/" y { Node::Div(Box::new(x),Box::new(y))}
+}
+
+value -> Node = pars / number
+
+number -> Node = whitespace* n:$([0-9]+) whitespace* {? Node::Number(n) }
+
