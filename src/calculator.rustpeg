@@ -1,4 +1,5 @@
 use crate::ast::Node;
+use std::str::FromStr;
 
 pub expr -> Node = op / value
 
@@ -15,7 +16,8 @@ op -> Node = #infix<value> {
   x "/" y { Node::Div(Box::new(x),Box::new(y))}
 }
 
-value -> Node = pars / number
+value -> Node = pars / node_number
 
-number -> Node = whitespace* n:$([0-9]+) whitespace* {? Node::Number(n) }
+integer -> i32 = whitespace* n:$([0-9]+) whitespace* {? i32::from_str(n).map_err(|_| "failed to parse i32") }
 
+node_number -> Node = n:integer { Node::Number(n) }
