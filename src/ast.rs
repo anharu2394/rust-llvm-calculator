@@ -1,3 +1,4 @@
+#[derive(Debug, PartialEq)]
 pub enum Node {
     Number(i32),
     Add(Box<Node>, Box<Node>),
