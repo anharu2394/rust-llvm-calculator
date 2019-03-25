@@ -18,5 +18,4 @@ op -> Node = #infix<value> {
 
 value -> Node = pars / number
 
-number -> Node = whitespace* n:$([0-9]+) whitespace* {? Node::Number(n) }
-
+number -> Node = whitespace* n:$([0-9]+) whitespace* { Node::Number(i32::from_str(n).unwrap()) }
