@@ -14,3 +14,12 @@ pub fn parse(x: &str) -> Result<Node, Error> {
         .into()
     })
 }
+
+#[cfg(test)]
+mod tests {
+    use super::parse;
+    #[test]
+    fn skip_space() {
+        assert_eq!(parse("1 +\n1 ").unwrap(), parse("1+1").unwrap())
+    }
+}
