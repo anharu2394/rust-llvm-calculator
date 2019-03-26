@@ -36,8 +36,7 @@ pub fn jit_compile(ast: Node) -> Result<JitFunction<SumFunc>, Error> {
     let return_val = compile_ast(ast, &context, &builder);
     builder.build_return(Some(&return_val));
     module.print_to_stderr();
-    unsafe { execution_engine.get_function("calc") }
-        .map_err(|e| Error::from_boxed_compat(Box::new(e)))
+    unsafe { execution_engine.get_function("calc") }.map_err(|e| e.into())
 }
 
 pub fn compile_ast(ast: Node, context: &Context, builder: &Builder) -> inkwell::values::IntValue {
