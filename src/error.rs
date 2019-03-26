@@ -5,3 +5,7 @@ use failure::Fail;
 pub struct ParseError {
     pub message: String,
 }
+
+#[derive(Fail, Debug)]
+#[fail(display = "Failed to compile")]
+pub struct CompilationError;
