@@ -24,7 +24,9 @@ pub fn jit_compile(ast: Node) -> Result<Option<JitFunction<SumFunc>>, Error> {
     let builder = context.create_builder();
     let execution_engine = module
         .create_jit_execution_engine(OptimizationLevel::None)
-        .map_err(|_| CompilationError)?;
+        .map_err(|e| CreateExecutionEngineError {
+            llvm_message: e.to_string(),
+        })?;
     let i32_type = context.i32_type();
     let fn_type = i32_type.fn_type(&[], false);
     let calc = module.add_function("calc", fn_type, None);
