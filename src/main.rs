@@ -5,10 +5,9 @@ fn main() {
 
     println!("problem is {}", input);
 
-    match compile_string(&input).expect("Failed to compile.") {
-        Some(calc) => unsafe {
-            println!("The answer is {}.", calc.call());
-        },
-        None => println!("failed to get the llvm function."),
+    let calc = compile_string(&input).expect("Failed to compile.");
+
+    unsafe {
+        println!("The answer is {}", calc.call());
     }
 }
