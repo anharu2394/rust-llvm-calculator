@@ -1,5 +1,5 @@
 use crate::ast::Node;
-use crate::error::CompilationError;
+use crate::error::CreateExecutionEngineError;
 use crate::parser;
 use failure;
 use failure::Error;

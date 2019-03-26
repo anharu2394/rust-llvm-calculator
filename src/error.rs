@@ -7,5 +7,7 @@ pub struct ParseError {
 }
 
 #[derive(Fail, Debug)]
-#[fail(display = "Failed to compile")]
-pub struct CompilationError;
+#[fail(display = "Failed to create a execution engine: {}", llvm_message)]
+pub struct CreateExecutionEngineError {
+    pub llvm_message: String,
+}
