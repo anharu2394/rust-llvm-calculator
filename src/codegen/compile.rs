@@ -15,7 +15,7 @@ type SumFunc = unsafe extern "C" fn() -> i32;
 
 pub fn compile_string(source: &str) -> Result<Option<JitFunction<SumFunc>>, Error> {
     let ast = parser::parse(&source)?;
-    jit_compile(ast).map_err(|_| CompilationError.into())
+    jit_compile(ast)
 }
 
 pub fn jit_compile(ast: Node) -> Result<Option<JitFunction<SumFunc>>, Error> {
