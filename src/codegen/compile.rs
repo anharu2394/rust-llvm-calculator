@@ -34,8 +34,8 @@ pub fn jit_compile(ast: Node) -> Result<i32, Error> {
 
     let return_val = compile_ast(ast, &context, &builder);
     builder.build_return(Some(&return_val));
-    module.print_to_stderr();
-    unsafe { execution_engine.get_function("calc") }.map_err(|e| e.into())
+    let calc_fn: JitFunction<SumFunc> = unsafe { execution_engine.get_function("calc") }?;
+    Ok(unsafe { calc_fn.call() })
 }
 
 pub fn compile_ast(ast: Node, context: &Context, builder: &Builder) -> inkwell::values::IntValue {
