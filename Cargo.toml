@@ -3,5 +3,10 @@ name = "anharu-calculator-project"
 version = "0.1.0"
 authors = ["Anharu <haruan2394@gmail.com>"]
 edition = "2018"
+build = "build.rs"
 
 [dependencies]
+failure = "0.1.5"
+inkwell = { git = "https://github.com/TheDan64/inkwell", branch = "llvm7-0" }
+[build-dependencies]
+peg = { version = "0.5" }
