@@ -5,9 +5,8 @@ fn main() {
 
     println!("problem is {}", input);
 
-    let calc = compile_string(&input).expect("Failed to compile.");
-
-    unsafe {
-        println!("The answer is {}", calc.call());
-    }
+    println!(
+        "The answer is {}",
+        compile_string(&input).expect("Failed to compile.")
+    );
 }
