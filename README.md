@@ -1,8 +1,8 @@
 # The calculator using Inkwell and Rust Peg
 
-This is my first llvm project🎉
+This is my first llvm project. 🎉
 
-This uses Rust Peg to parse, Inkwell to compile.
+This project uses Rust Peg to parse, Inkwell to compile.
 
 Using Failure, This project handle errors effectively.
 
