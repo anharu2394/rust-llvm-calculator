@@ -7,5 +7,6 @@ build = "build.rs"
 
 [dependencies]
 failure = "0.1.5"
+inkwell = { git = "https://github.com/TheDan64/inkwell", branch = "llvm7-0" }
 [build-dependencies]
 peg = { version = "0.5" }
