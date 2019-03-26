@@ -35,6 +35,7 @@ pub fn jit_compile(ast: Node) -> Result<Option<JitFunction<SumFunc>>, Error> {
 
     let return_val = compile_ast(ast, &context, &module, &builder, &execution_engine);
     builder.build_return(Some(&return_val));
+    module.print_to_stderr();
     unsafe { Ok(execution_engine.get_function("calc").ok()) }.map_err(Error::from_boxed_compat)
 }
 
