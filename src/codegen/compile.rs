@@ -33,47 +33,41 @@ pub fn jit_compile(ast: Node) -> Result<JitFunction<SumFunc>, Error> {
     let basic_block = context.append_basic_block(&calc, "entry");
     builder.position_at_end(&basic_block);
 
-    let return_val = compile_ast(ast, &context, &module, &builder, &execution_engine);
+    let return_val = compile_ast(ast, &context, &builder);
     builder.build_return(Some(&return_val));
     module.print_to_stderr();
     unsafe { execution_engine.get_function("calc") }
         .map_err(|e| Error::from_boxed_compat(Box::new(e)))
 }
 
-pub fn compile_ast(
-    ast: Node,
-    context: &Context,
-    module: &Module,
-    builder: &Builder,
-    execution_engine: &ExecutionEngine,
-) -> inkwell::values::IntValue {
+pub fn compile_ast(ast: Node, context: &Context, builder: &Builder) -> inkwell::values::IntValue {
     match ast {
         Node::Number(n) => {
             let i32_type = context.i32_type();
             i32_type.const_int(n as u64, false)
         }
         Node::Add(x, y) => {
-            let i32_type_x = compile_ast(*x, context, module, builder, execution_engine);
-            let i32_type_y = compile_ast(*y, context, module, builder, execution_engine);
+            let i32_type_x = compile_ast(*x, context, builder);
+            let i32_type_y = compile_ast(*y, context, builder);
 
             let sum = builder.build_int_add(i32_type_x, i32_type_y, "sum");
             sum
         }
         Node::Sub(x, y) => {
-            let i32_type_x = compile_ast(*x, context, module, builder, execution_engine);
-            let i32_type_y = compile_ast(*y, context, module, builder, execution_engine);
+            let i32_type_x = compile_ast(*x, context, builder);
+            let i32_type_y = compile_ast(*y, context, builder);
             let sum = builder.build_int_sub(i32_type_x, i32_type_y, "sub");
             sum
         }
         Node::Mul(x, y) => {
-            let i32_type_x = compile_ast(*x, context, module, builder, execution_engine);
-            let i32_type_y = compile_ast(*y, context, module, builder, execution_engine);
+            let i32_type_x = compile_ast(*x, context, builder);
+            let i32_type_y = compile_ast(*y, context, builder);
             let sum = builder.build_int_mul(i32_type_x, i32_type_y, "mul");
             sum
         }
         Node::Div(x, y) => {
-            let i32_type_x = compile_ast(*x, context, module, builder, execution_engine);
-            let i32_type_y = compile_ast(*y, context, module, builder, execution_engine);
+            let i32_type_x = compile_ast(*x, context, builder);
+            let i32_type_y = compile_ast(*y, context, builder);
             let sum = builder.build_int_unsigned_div(i32_type_x, i32_type_y, "div");
             sum
         }
