@@ -7,18 +7,17 @@ use failure::Error;
 use inkwell;
 use inkwell::builder::Builder;
 use inkwell::context::Context;
-use inkwell::execution_engine::{ExecutionEngine, JitFunction};
-use inkwell::module::Module;
+use inkwell::execution_engine::JitFunction;
 use inkwell::OptimizationLevel;
 
 type SumFunc = unsafe extern "C" fn() -> i32;
 
-pub fn compile_string(source: &str) -> Result<JitFunction<SumFunc>, Error> {
+pub fn compile_string(source: &str) -> Result<i32, Error> {
     let ast = parser::parse(&source)?;
     jit_compile(ast)
 }
 
-pub fn jit_compile(ast: Node) -> Result<JitFunction<SumFunc>, Error> {
+pub fn jit_compile(ast: Node) -> Result<i32, Error> {
     let context = Context::create();
     let module = context.create_module("calculator");
     let builder = context.create_builder();
